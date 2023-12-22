@@ -6,4 +6,5 @@ public class Borrower
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
+    public List<BookBorrower> BorrowedBooks { get; set; }
 }
