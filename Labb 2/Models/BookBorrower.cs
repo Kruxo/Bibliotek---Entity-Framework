@@ -2,8 +2,8 @@
 
 public class BookBorrower
 {
-    public Book BookId { get; set; }
-    public Borrower BorrowerId { get; set; }
+    public int BookId { get; set; }
+    public int BorrowerId { get; set; }
     public DateOnly BorrowDate { get; set; }
     public DateOnly? ReturnDate { get; set; }
 

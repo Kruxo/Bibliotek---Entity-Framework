@@ -2,8 +2,8 @@
 
 public class BookAuthor
 {
-    public Book BookId { get; set; }
-    public List<Author> AuthorId { get; set; }
+    public int BookId { get; set; }
+    public int AuthorId { get; set; }
 
     public Book Book { get; set; }
     public Author Author { get; set; }
