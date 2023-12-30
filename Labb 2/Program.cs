@@ -2,6 +2,7 @@ using Labb_2.Data;
 using Labb_2.Services;
 using Labb_2.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); //Ignore cirkelreferences and stops serialization to JSON 
 builder.Services.AddScoped<IBookBorrowerService, BookBorrowerService>();
 builder.Services.AddScoped<IBookAuthorService, BookAuthorService>();
 builder.Services.AddScoped<IBorrowerService, BorrowerService>();

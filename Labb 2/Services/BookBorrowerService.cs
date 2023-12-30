@@ -54,7 +54,7 @@ public class BookBorrowerService : IBookBorrowerService
         //Checking if book is borrowed
         if (await _context.BookBorrowers.AnyAsync(bb => bb.BookId == bookId && bb.ReturnDate == null))
         {
-            return null; 
+            return null; //if borrowed
         }
 
         //Creating new record of borrowed book
