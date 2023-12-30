@@ -8,5 +8,7 @@ public interface IBookBorrowerService
     Task<BookBorrower?> GetSingleBookBorrower(int bookId, int borrowerId);
     Task<List<BookBorrower>> AddBookBorrower(BookBorrower bookBorrower);
     Task<List<BookBorrower>> DeleteBookBorrower(int bookId, int borrowerId);
+    Task<List<BookBorrower>> BorrowBook(int bookId, int borrowerId);
+    Task<List<BookBorrower>> ReturnBook(int bookId, int borrowerId);
 }
 

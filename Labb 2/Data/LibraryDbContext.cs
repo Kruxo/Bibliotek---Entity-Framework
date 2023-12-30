@@ -40,6 +40,14 @@ public class LibraryDbContext : DbContext
             .HasOne(bb => bb.Borrower)
             .WithMany(b => b.BorrowedBooks)
             .HasForeignKey(bb => bb.BorrowerId);
+
+        modelBuilder.Entity<BookBorrower>()
+        .Property(bb => bb.BorrowDate)
+        .HasDefaultValueSql("GETDATE()"); 
+
+        modelBuilder.Entity<BookBorrower>()
+            .Property(bb => bb.ReturnDate)
+            .HasDefaultValue(null); 
     }
 
 }

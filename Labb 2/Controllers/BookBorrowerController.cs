@@ -50,5 +50,27 @@ public class BookBorrowerController : ControllerBase
         }
         return Ok(result);
     }
+
+    [HttpPost("borrow/{bookId}/{borrowerId}")]
+    public async Task<ActionResult<List<BookBorrower>>> BorrowBook(int bookId, int borrowerId)
+    {
+        var result = await _bookBorrowerService.BorrowBook(bookId, borrowerId);
+        if (result == null)
+        {
+            return NotFound("Borrowing failed. Check if the book and borrower exist or if the book is already borrowed.");
+        }
+        return Ok(result);
+    }
+
+    [HttpPost("return/{bookId}/{borrowerId}")]
+    public async Task<ActionResult<List<BookBorrower>>> ReturnBook(int bookId, int borrowerId)
+    {
+        var result = await _bookBorrowerService.ReturnBook(bookId, borrowerId);
+        if (result == null)
+        {
+            return NotFound("Returning failed. Check if the book is currently borrowed by the specified borrower.");
+        }
+        return Ok(result);
+    }
 }
 
