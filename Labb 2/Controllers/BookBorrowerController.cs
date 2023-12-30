@@ -57,7 +57,7 @@ public class BookBorrowerController : ControllerBase
         var result = await _bookBorrowerService.BorrowBook(bookId, borrowerId);
         if (result == null)
         {
-            return NotFound("Borrowing failed. Check if the book and borrower exist or if the book is already borrowed.");
+            return NotFound("Error! Failed to borrow. Check if the book and borrower exist or if the book is already borrowed.");
         }
         return Ok(result);
     }
@@ -68,7 +68,7 @@ public class BookBorrowerController : ControllerBase
         var result = await _bookBorrowerService.ReturnBook(bookId, borrowerId);
         if (result == null)
         {
-            return NotFound("Returning failed. Check if the book is currently borrowed by the specified borrower.");
+            return NotFound("Error! Failed to return.");
         }
         return Ok(result);
     }

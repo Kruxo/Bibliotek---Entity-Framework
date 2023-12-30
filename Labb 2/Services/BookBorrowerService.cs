@@ -42,27 +42,27 @@ public class BookBorrowerService : IBookBorrowerService
     }
     public async Task<List<BookBorrower>> BorrowBook(int bookId, int borrowerId)
     {
-        // Check if the book and borrower exist
+        //Checking if book and borrower exist by their ID
         var book = await _context.Books.FindAsync(bookId);
         var borrower = await _context.Borrowers.FindAsync(borrowerId);
 
         if (book == null || borrower == null)
         {
-            return null; // Book or borrower not found
+            return null; 
         }
 
-        // Check if the book is already borrowed
+        //Checking if book is borrowed
         if (await _context.BookBorrowers.AnyAsync(bb => bb.BookId == bookId && bb.ReturnDate == null))
         {
-            return null; // Book is already borrowed
+            return null; 
         }
 
-        // Create a new BookBorrower record
+        //Creating new record of borrowed book
         var bookBorrower = new BookBorrower
         {
             BookId = bookId,
             BorrowerId = borrowerId,
-            BorrowDate = DateOnly.FromDateTime(DateTime.Now) // Set the current date as the borrow date
+            BorrowDate = DateOnly.FromDateTime(DateTime.Now)
         };
 
         _context.BookBorrowers.Add(bookBorrower);
@@ -73,16 +73,16 @@ public class BookBorrowerService : IBookBorrowerService
 
     public async Task<List<BookBorrower>> ReturnBook(int bookId, int borrowerId)
     {
-        // Find the BookBorrower record for the given book and borrower
+        //Finding existing record of borrowed book by borrower 
         var bookBorrower = await _context.BookBorrowers
             .SingleOrDefaultAsync(bb => bb.BookId == bookId && bb.BorrowerId == borrowerId && bb.ReturnDate == null);
 
         if (bookBorrower == null)
         {
-            return null; // Book is not currently borrowed by the specified borrower
+            return null; 
         }
 
-        // Set the return date to the current date
+        //Set return date to current system date
         bookBorrower.ReturnDate = DateOnly.FromDateTime(DateTime.Now);
 
         await _context.SaveChangesAsync();

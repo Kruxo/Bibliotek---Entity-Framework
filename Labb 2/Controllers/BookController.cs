@@ -41,18 +41,6 @@ public class BookController : ControllerBase
         return Ok(result);
     }
 
-    /*[HttpPut]
-    public async Task<ActionResult<List<Book>>> UpdateBook(Book updateBook, int id)
-    {
-        var result = await _bookService.UpdateBook(updateBook, id);
-        if (result == null)
-        {
-            return NotFound("This book doesn't exist");
-        }
-        return Ok(result);
-    }*/
-
-
     [HttpDelete("{id}")]
     public async Task<ActionResult<List<Book>>> DeleteBook(int id)
     {

@@ -38,24 +38,6 @@ public class BookService : IBookService
         return await _context.Books.ToListAsync();
     }
 
-    /*public async Task<List<Book>?> UpdateBook(Book updateBook, int id)
-    {
-        var book = await _context.Books.FindAsync(id);
-        if (book is null)
-        {
-            return null;
-        }
-
-        book.Title = updateBook.Title;
-        book.ISBN = updateBook.ISBN;
-        book.Published = updateBook.Published;
-        book.Rating = updateBook.Rating;
-
-        await _context.SaveChangesAsync();
-
-        return await _context.Books.ToListAsync();
-    }*/
-
     public async Task<List<Book>?> DeleteBook(int id)
     {
         var book = await _context.Books.FindAsync(id);
