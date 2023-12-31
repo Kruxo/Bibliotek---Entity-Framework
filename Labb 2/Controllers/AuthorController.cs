@@ -23,21 +23,6 @@ public class AuthorController : ControllerBase
         return await _authorService.GetAllAuthors();
     }
 
-    /*[HttpGet]
-    public async Task<ActionResult<List<AuthorDTO>>> GetAllAuthors()
-    {
-        var authors = await _authorService.GetAllAuthors();
-
-        var authorDtos = authors.Select(author => new AuthorDTO
-        {
-            Id = author.Id,
-            FirstName = author.FirstName,
-            LastName = author.LastName,
-        }).ToList();
-
-        return Ok(authorDtos);
-    }*/
-
     [HttpGet("{id}")]
     public async Task<ActionResult<Author>> GetSingleAuthor(int id)
     {
