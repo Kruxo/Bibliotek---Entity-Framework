@@ -31,11 +31,11 @@ public class BorrowerService : IBorrowerService
         return borrower;
     }
 
-    public async Task<List<Borrower>> AddBorrower(Borrower borrower)
+    public async Task<Borrower> AddBorrower(Borrower borrower)
     {
         _context.Borrowers.Add(borrower);
         await _context.SaveChangesAsync();
-        return await _context.Borrowers.ToListAsync();
+        return borrower;
     }
 
     public async Task<List<Borrower>?> DeleteBorrower(int id)

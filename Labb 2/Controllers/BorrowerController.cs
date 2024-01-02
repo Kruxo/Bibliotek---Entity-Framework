@@ -1,4 +1,6 @@
-﻿using Labb_2.Models;
+﻿using AutoMapper;
+using Labb_2.DTO;
+using Labb_2.Models;
 using Labb_2.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +12,11 @@ namespace Labb_2.Controllers;
 public class BorrowerController : ControllerBase
 {
     private readonly IBorrowerService _borrowerService;
-
-    public BorrowerController(IBorrowerService borrowerService)
+    private readonly IMapper _mapper;
+    public BorrowerController(IBorrowerService borrowerService, IMapper mapper)
     {
         _borrowerService = borrowerService;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -34,10 +37,11 @@ public class BorrowerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<List<Borrower>>> AddBorrower(Borrower borrower)
+    public async Task<ActionResult<BorrowerDTO>> AddBorrower(BorrowerDTO borrowerDto)
     {
-        var result = await _borrowerService.AddBorrower(borrower);
-        return Ok(result);
+        var addedBorrower = await _borrowerService.AddBorrower(_mapper.Map<Borrower>(borrowerDto));
+        var addedBorrowerDto = _mapper.Map<BorrowerDTO>(addedBorrower);
+        return CreatedAtAction(nameof(GetSingleBorrower), new { id = addedBorrowerDto.Id }, addedBorrowerDto);
     }
 
     [HttpDelete("{id}")]

@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); //Ignore cirkelreferences and stops serialization to JSON 
 builder.Services.AddScoped<IBookBorrowerService, BookBorrowerService>();
@@ -19,6 +20,7 @@ builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddDbContext<LibraryDbContext>(
     o => o.UseSqlServer(builder.Configuration.GetConnectionString("Bibliotek")));
+
 
 var app = builder.Build();
 

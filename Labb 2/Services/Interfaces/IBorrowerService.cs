@@ -6,6 +6,6 @@ public interface IBorrowerService
 {
     Task<List<Borrower>> GetAllBorrowers();
     Task<Borrower?> GetSingleBorrower(int id);
-    Task<List<Borrower>> AddBorrower(Borrower borrower);
+    Task<Borrower> AddBorrower(Borrower borrower);
     Task<List<Borrower>?> DeleteBorrower(int id);
 }
