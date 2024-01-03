@@ -37,11 +37,12 @@ public class BorrowerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<BorrowerDTO>> AddBorrower(BorrowerDTO borrowerDto)
+    public async Task<ActionResult<AddBorrowerDTO>> AddBorrower(AddBorrowerDTO borrowerDto)
     {
         var addedBorrower = await _borrowerService.AddBorrower(_mapper.Map<Borrower>(borrowerDto));
-        var addedBorrowerDto = _mapper.Map<BorrowerDTO>(addedBorrower);
-        return CreatedAtAction(nameof(GetSingleBorrower), new { id = addedBorrowerDto.Id }, addedBorrowerDto);
+        var addedBorrowerDto = _mapper.Map<AddBorrowerDTO>(addedBorrower);
+
+        return CreatedAtAction(nameof(GetSingleBorrower), new { id = addedBorrower.Id }, addedBorrower);
     }
 
     [HttpDelete("{id}")]
@@ -52,6 +53,6 @@ public class BorrowerController : ControllerBase
         {
             return NotFound("This borrower doesn't exist");
         }
-        return Ok(result);
+        return Ok($"Borrower with Id = {id} is deleted from the database");
     }
 }

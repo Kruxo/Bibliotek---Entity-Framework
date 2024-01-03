@@ -1,4 +1,5 @@
 ﻿using Labb_2.Data;
+using Labb_2.DTO;
 using Labb_2.Models;
 using Labb_2.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,35 @@ public class BookAuthorService : IBookAuthorService
         _context = context;
     }
 
-    public async Task<List<BookAuthor>> GetAllBookAuthors()
+    public async Task<List<BookAuthorDTO>> GetAllBookAuthors()
     {
-        return await _context.BookAuthors.ToListAsync();
+        var bookAuthors = await _context.BookAuthors.ToListAsync();
+        var bookAuthorDTOs = bookAuthors.Select(ba => new BookAuthorDTO
+        {
+            BookId = ba.BookId,
+            AuthorId = ba.AuthorId
+        }).ToList();
+
+        return bookAuthorDTOs;
     }
 
-    public async Task<BookAuthor?> GetSingleBookAuthor(int bookId, int authorId)
+    public async Task<BookAuthorDTO?> GetSingleBookAuthor(int bookId, int authorId)
     {
-        return await _context.BookAuthors.FindAsync(bookId, authorId);
+        var bookAuthor = await _context.BookAuthors.FindAsync(bookId, authorId);
+
+        if (bookAuthor is null)
+        {
+            return null;
+        }
+
+        return new BookAuthorDTO
+        {
+            BookId = bookAuthor.BookId,
+            AuthorId = bookAuthor.AuthorId
+        };
+
     }
+
 
     public async Task<List<BookAuthor>> AddBookAuthor(BookAuthor bookAuthor)
     {
@@ -34,13 +55,17 @@ public class BookAuthorService : IBookAuthorService
     public async Task<List<BookAuthor>> DeleteBookAuthor(int bookId, int authorId)
     {
         var bookAuthor = await _context.BookAuthors.FindAsync(bookId, authorId);
-        if (bookAuthor != null)
+        if (bookAuthor is null)
         {
-            _context.BookAuthors.Remove(bookAuthor);
-            await _context.SaveChangesAsync();
+            return null;
         }
+
+        _context.BookAuthors.Remove(bookAuthor);
+            await _context.SaveChangesAsync();
+
         return await _context.BookAuthors.ToListAsync();
     }
+
 }
 
 

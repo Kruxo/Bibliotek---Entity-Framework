@@ -1,4 +1,6 @@
 ﻿using Labb_2.Data;
+using Labb_2.DTO;
+using Labb_2.Extensions;
 using Labb_2.Models;
 using Labb_2.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -14,28 +16,40 @@ public class BookService : IBookService
         _context = context;
     }
 
-    public async Task<List<Book>> GetAllBooks()
+    public async Task<List<BookDTO>> GetAllBooks()
     {
-        var allBooks = await _context.Books.ToListAsync();
-        return allBooks;
+        var allBooks = await _context.Books
+            .Include(b => b.Authors)
+            .Include(b => b.Borrowers)
+            .ToListAsync();
+
+        var bookDTOs = allBooks.Select(book => book.ToBookDTO()).ToList();
+
+        return bookDTOs;
     }
 
-    public async Task<Book?> GetSingleBook(int id)
+
+    public async Task<BookDTO?> GetSingleBook(int id)
     {
-        var book = await _context.Books.FindAsync(id);
+        var book = await _context.Books
+            .Include(b => b.Authors)
+            .Include(b => b.Borrowers)
+            .FirstOrDefaultAsync(b => b.Id == id);
+
         if (book is null)
         {
             return null;
         }
 
-        return book;
+        return book.ToBookDTO();
     }
 
-    public async Task<List<Book>> AddBook(Book book)
+
+    public async Task<Book> AddBook(Book book)
     {
         _context.Books.Add(book);
         await _context.SaveChangesAsync();
-        return await _context.Books.ToListAsync();
+        return book;
     }
 
     public async Task<List<Book>?> DeleteBook(int id)

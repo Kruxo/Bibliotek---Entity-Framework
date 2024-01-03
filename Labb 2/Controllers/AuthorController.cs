@@ -36,17 +36,16 @@ public class AuthorController : ControllerBase
         return Ok(result);
     }
 
-
     [HttpPost]
-    public async Task<ActionResult<Author>> AddAuthor(AuthorDTO authorDto)
+    public async Task<ActionResult<Author>> AddAuthor(AddAuthorDTO authorDto)
     {
         var addedAuthor = await _authorService.AddAuthor(_mapper.Map<Author>(authorDto)); //Maps AuthorDTO to an Author when an author gets added to the service
-        var addedAuthorDto = _mapper.Map<AuthorDTO>(addedAuthor); //This maps back from Author to AuthorDTO which gives us the result
+        var addedAuthorDto = _mapper.Map<AddAuthorDTO>(addedAuthor); //This maps back from Author to AuthorDTO which gives us the result
 
-       return CreatedAtAction(nameof(GetSingleAuthor), new { id = addedAuthorDto.Id }, addedAuthorDto);
+        return CreatedAtAction(nameof(GetSingleAuthor), new { id = addedAuthor.Id }, addedAuthor);
+
+
     }
-
-
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<List<Author>>> DeleteAuthor(int id)
@@ -56,7 +55,7 @@ public class AuthorController : ControllerBase
         {
             return NotFound("This author doesn't exist");
         }
-        return Ok(result);
+        return Ok($"Author with Id = {id} is deleted from the database");
     }
 }
 

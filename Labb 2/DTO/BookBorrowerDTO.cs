@@ -4,7 +4,7 @@ public class BookBorrowerDTO
 {
     public int BookId { get; set; }
     public int BorrowerId { get; set; }
-    public int BorrowDate { get; set; }
-    public int ReturnDate { get; set; }
+    public DateOnly? BorrowDate { get; set; }
+    public DateOnly? ReturnDate { get; set; }
 
 }

@@ -1,5 +1,6 @@
 ﻿using Labb_2.Data;
 using Labb_2.DTO;
+using Labb_2.Extensions;
 using Labb_2.Models;
 using Labb_2.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -21,19 +22,7 @@ public class BorrowerService : IBorrowerService
             .Include(b => b.BorrowedBooks)
             .ToListAsync();
 
-        var borrowerDTOs = allBorrowers.Select(b => new BorrowerDTO
-        {
-            Id = b.Id,
-            FirstName = b.FirstName,
-            LastName = b.LastName,
-            LibraryCard = b.LibraryCard,
-            BorrowedBooks = b.BorrowedBooks.Select(bb => new BorrowedBooksDTO
-            {
-                BookId = bb.BookId,
-                BorrowDate = bb.BorrowDate,
-                ReturnDate = bb.ReturnDate
-            }).ToList()
-        }).ToList();
+        var borrowerDTOs = allBorrowers.Select(b => b.ToBorrowDTO()).ToList();
 
         return borrowerDTOs;
     }
@@ -49,21 +38,7 @@ public class BorrowerService : IBorrowerService
             return null;
         }
 
-        var borrowedBooks = borrower.BorrowedBooks.Select(bb => new BorrowedBooksDTO
-        {
-            BookId = bb.BookId,
-            BorrowDate = bb.BorrowDate,
-            ReturnDate = bb.ReturnDate
-        }).ToList();
-
-        return new BorrowerDTO
-        {
-            Id = borrower.Id,
-            FirstName = borrower.FirstName,
-            LastName = borrower.LastName,
-            LibraryCard = borrower.LibraryCard,
-            BorrowedBooks = borrowedBooks
-        };
+        return borrower.ToBorrowDTO();
     }
 
 
@@ -87,4 +62,5 @@ public class BorrowerService : IBorrowerService
 
         return await _context.Borrowers.ToListAsync();
     }
+
 }

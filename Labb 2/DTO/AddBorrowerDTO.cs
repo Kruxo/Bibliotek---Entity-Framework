@@ -1,9 +1,8 @@
 ﻿namespace Labb_2.DTO;
 
-public class AuthorDTO
+public class AddBorrowerDTO
 {
-    public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-
+    public string LibraryCard { get; set; }
 }

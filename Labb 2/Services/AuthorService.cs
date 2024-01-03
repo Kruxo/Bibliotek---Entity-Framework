@@ -1,5 +1,6 @@
 ﻿using Labb_2.Data;
 using Labb_2.DTO;
+using Labb_2.Extensions;
 using Labb_2.Models;
 using Labb_2.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -17,15 +18,11 @@ public class AuthorService : IAuthorService
     }
     public async Task<List<AuthoredBooks>> GetAllAuthors()
     {
-        var authors = await _context.Authors.Include(a => a.Books).ToListAsync();
+        var authors = await _context.Authors
+            .Include(a => a.Books)
+            .ToListAsync();
 
-        return authors.Select(author => new AuthoredBooks
-        {
-            Id = author.Id,
-            FirstName = author.FirstName,
-            LastName = author.LastName,
-            BookIds = author.Books.Select(bookAuthor => bookAuthor.BookId).ToList()
-        }).ToList();
+        return authors.Select(author => author.ToAuthorDTO()).ToList();
     }
 
     public async Task<AuthoredBooks?> GetSingleAuthor(int id)
@@ -34,19 +31,9 @@ public class AuthorService : IAuthorService
             .Include(a => a.Books)
             .FirstOrDefaultAsync(a => a.Id == id);
 
-        if (author is null)
-        {
-            return null;
-        }
-
-        return new AuthoredBooks
-        {
-            Id = author.Id,
-            FirstName = author.FirstName,
-            LastName = author.LastName,
-            BookIds = author.Books.Select(bookAuthor => bookAuthor.BookId).ToList()
-        };
+        return author?.ToAuthorDTO();
     }
+
 
     public async Task<Author> AddAuthor(Author author)
     {
