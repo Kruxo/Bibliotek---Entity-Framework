@@ -1,10 +1,9 @@
 ﻿namespace Labb_2.DTO;
 
-public class BorrowerDTO
+public class AuthoredBooks
 {
     public int Id { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
-    public string LibraryCard { get; set; }
-    public List<BorrowedBooksDTO> BorrowedBooks { get; set; }
+    public List<int> BookIds { get; set; }
 }

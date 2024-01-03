@@ -20,13 +20,13 @@ public class BorrowerController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Borrower>>> GetAllBorrowers()
+    public async Task<ActionResult<List<BorrowerDTO>>> GetAllBorrowers()
     {
         return await _borrowerService.GetAllBorrowers();
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Borrower>> GetSingleBorrower(int id)
+    public async Task<ActionResult<BorrowerDTO>> GetSingleBorrower(int id)
     {
         var result = await _borrowerService.GetSingleBorrower(id);
         if (result == null)

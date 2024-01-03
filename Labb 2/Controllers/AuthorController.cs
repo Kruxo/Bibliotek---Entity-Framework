@@ -20,7 +20,7 @@ public class AuthorController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Author>>> GetAllAuthors()
+    public async Task<ActionResult<IEnumerable<AuthoredBooks>>> GetAllAuthors()
     {
         return await _authorService.GetAllAuthors();
     }
