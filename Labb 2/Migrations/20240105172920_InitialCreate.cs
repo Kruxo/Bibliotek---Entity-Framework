@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Labb_2.Migrations
 {
     /// <inheritdoc />
-    public partial class Author : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -23,6 +23,22 @@ namespace Labb_2.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Authors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Books",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Published = table.Column<DateOnly>(type: "date", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Books", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,7 +86,7 @@ namespace Labb_2.Migrations
                 {
                     BookId = table.Column<int>(type: "int", nullable: false),
                     BorrowerId = table.Column<int>(type: "int", nullable: false),
-                    BorrowDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    BorrowDate = table.Column<DateOnly>(type: "date", nullable: false, defaultValueSql: "GETDATE()"),
                     ReturnDate = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
@@ -112,6 +128,9 @@ namespace Labb_2.Migrations
 
             migrationBuilder.DropTable(
                 name: "Authors");
+
+            migrationBuilder.DropTable(
+                name: "Books");
 
             migrationBuilder.DropTable(
                 name: "Borrowers");

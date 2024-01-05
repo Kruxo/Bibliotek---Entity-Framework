@@ -1,6 +1,7 @@
 using Labb_2.Data;
 using Labb_2.Services;
 using Labb_2.Services.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 
@@ -18,9 +19,18 @@ builder.Services.AddScoped<IBookAuthorService, BookAuthorService>();
 builder.Services.AddScoped<IBorrowerService, BorrowerService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
-builder.Services.AddDbContext<LibraryDbContext>(
-    o => o.UseSqlServer(builder.Configuration.GetConnectionString("Bibliotek")));
+builder.Services.AddDbContext<LibraryDbContext>(o =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("AzureDb");
+    var connBuilder = new SqlConnectionStringBuilder(connectionString)
+    {
+        Password = builder.Configuration["ConnectionStrings:AzureDb:Password"],
+    };
 
+    connectionString = connBuilder.ConnectionString;
+
+    o.UseSqlServer(connectionString);
+});
 
 var app = builder.Build();
 

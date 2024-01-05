@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Labb_2.DTO;
-using Labb_2.Migrations;
 using Labb_2.Models;
 using Labb_2.Services;
 using Labb_2.Services.Interfaces;

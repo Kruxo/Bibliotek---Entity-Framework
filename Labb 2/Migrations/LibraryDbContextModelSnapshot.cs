@@ -4,7 +4,6 @@ using Labb_2.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Labb_2.Migrations
 {
     [DbContext(typeof(LibraryDbContext))]
-    [Migration("20231229091925_JunctionTables")]
-    partial class JunctionTables
+    partial class LibraryDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,7 +40,7 @@ namespace Labb_2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("Labb_2.Models.Book", b =>
@@ -70,7 +67,7 @@ namespace Labb_2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("Labb_2.Models.BookAuthor", b =>
@@ -85,7 +82,7 @@ namespace Labb_2.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("BookAuthors");
+                    b.ToTable("BookAuthors", (string)null);
                 });
 
             modelBuilder.Entity("Labb_2.Models.BookBorrower", b =>
@@ -97,7 +94,9 @@ namespace Labb_2.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateOnly>("BorrowDate")
-                        .HasColumnType("date");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("GETDATE()");
 
                     b.Property<DateOnly?>("ReturnDate")
                         .HasColumnType("date");
@@ -106,7 +105,7 @@ namespace Labb_2.Migrations
 
                     b.HasIndex("BorrowerId");
 
-                    b.ToTable("BookBorrowers");
+                    b.ToTable("BookBorrowers", (string)null);
                 });
 
             modelBuilder.Entity("Labb_2.Models.Borrower", b =>
@@ -131,7 +130,7 @@ namespace Labb_2.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Borrowers");
+                    b.ToTable("Borrowers", (string)null);
                 });
 
             modelBuilder.Entity("Labb_2.Models.BookAuthor", b =>
